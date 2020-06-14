@@ -1,2 +1,1 @@
-# gantt
-Gantt Chart Code
+# Gantt Chart Code
