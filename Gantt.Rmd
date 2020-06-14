@@ -1,0 +1,45 @@
+---
+title: "Gantt-Shiny"
+author: "Charles Lang"
+date: "9/7/2019"
+output: html_document
+---
+
+```{r}
+library(shiny)
+library(plotly)
+library(vistime)
+
+data <- read.csv("Gantt.csv", header = TRUE)
+                           
+gantt <- vistime(data)
+export(gantt, file = "gantt.pdf")
+
+shinyApp(
+  ui = plotlyOutput("myVistime"),
+  server = function(input, output) {
+    output$myVistime <- renderPlotly({
+      p <- vistime(data, events="event", groups="group")
+      pp <- plotly_build(p)
+      #pp$x$layout$xaxis$tickfont <- list(size = 1)
+      #for(i in 1:length(pp$x$data)){
+    #if(pp$x$data[[i]]$mode == "text") pp$x$data[[i]]$textfont$size <- 10}
+      pp
+    })
+  }
+)
+
+shinyApp(
+  ui = plotlyOutput("myVistime"),
+  server = function(input, output) {
+    output$myVistime <- renderPlotly({
+      p <- vistime(data, events="event", groups="group")
+      pp <- plotly_build(p)
+      pp
+    })
+  }
+)
+
+
+```
+
